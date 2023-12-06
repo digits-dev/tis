@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CompanyStore;
 use App\Models\PrivilegeStoreAccess;
 use App\Models\SalesReport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use CRUDBooster;
 use DB;
@@ -40,16 +41,19 @@ class AdminDashboardController extends Controller
                 $data['delivery'][$key] = SalesReport::getModeofOrder($store_name->company_id,$store_name->branch_id,self::DELIVERY)
                     ->first();
 
-                $data['total_trx'][$key] = DB::connection('tms')->table('sales_reports')
-                    ->select(DB::raw("COUNT(distinct receipt_number) as count, date_format(sales_trx_date,'%Y-%m-%d') as date"))
-                    ->where('company', $store_name->company_id)
-                    ->where('branch', $store_name->branch_id)
-                    ->groupBy('date')
-                    ->orderBy('date', 'desc')
+                $data['total_trx'][$key] = SalesReport::getTotalTrx($store_name->company_id,$store_name->branch_id)
                     ->first();
 
                 $data['gross_sale'][$key] = SalesReport::getGrossSale($store_name->company_id,$store_name->branch_id)
                     ->first();
+
+                $startDate = Carbon::parse($data['gross_sale'][$key]->date)->startOfMonth()->format('Y-m-d');
+
+                $gross = SalesReport::getGrossSale($store_name->company_id,$store_name->branch_id)->whereBetween('sales_trx_date',[$startDate,$data['gross_sale'][$key]->date])->get();
+
+                $sum = array_sum(array_column($gross->toArray(),'amount'));
+
+                $data['adds'][$key] = $sum/$gross->count();
 
                 $data['gross_sale_mtd'][$key] = DB::connection('tms')->table('sales_report_mtd')
                 ->select(DB::raw("SUM(mtd) as amount, date_format(sales_trx_date,'%Y-%m-%d') as date"))

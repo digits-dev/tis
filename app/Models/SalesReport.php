@@ -29,4 +29,18 @@ class SalesReport extends Model
             ->orderBy('date', 'desc');
     }
 
+    public function scopeGetTotalTrx($query, $company_id, $branch_id){
+        return $query->select(DB::raw("COUNT(distinct receipt_number) as count, date_format(sales_trx_date,'%Y-%m-%d') as date"))
+            ->where('company', $company_id)
+            ->where('branch', $branch_id)
+            ->groupBy('date')
+            ->orderBy('date', 'desc');
+    }
+
+    public function scopeGetGrossSum($query, $company_id, $branch_id){
+        return $query->select(DB::raw("SUM(gross_amount) as amount"))
+            ->where('company', $company_id)
+            ->where('branch', $branch_id);
+    }
+
 }

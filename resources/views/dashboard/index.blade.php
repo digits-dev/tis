@@ -22,32 +22,23 @@
                     <div class='panel panel-default'>
                         <div class='panel-heading store-header'>{{ $store }}</div>
                         <div class="panel-body">
+                            <h5>Date: <b>{{ $gross_sale[$key]->date }}</b></h5>
+
                             <b>Sales</b>
                             <table class="table table-striped sales-table" style="width:100%">
                                 <tbody>
                                     <tr>
-                                        <td>Gross Sales:</td>
+                                        <td>Gross Sales</td>
                                         <td> {{ number_format($gross_sale[$key]->amount,2) }} </td>
                                     </tr>
                                     <tr>
-                                        <td>MTD Gross Sales:</td>
+                                        <td>MTD Gross Sales</td>
                                         <td> {{ number_format($gross_sale_mtd[$key]->amount,2) }} </td>
                                     </tr>
+
                                     <tr>
-                                        <td>Month Target Sales:</td>
-                                        <td> {{ $test }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sales Achievement:</td>
-                                        <td> {{ $test }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>(MTD Gross Sales / Target Sales):</td>
-                                        <td> {{ $test }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ave. Daily Sales:</td>
-                                        <td> {{ $test }} </td>
+                                        <td>Ave. Daily Sales</td>
+                                        <td> {{ number_format($adds[$key],2) }} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -77,10 +68,7 @@
                                         <td>Total Transaction</td>
                                         <td> {{ number_format($total_trx[$key]->count,2) }} </td>
                                     </tr>
-                                    <tr>
-                                        <td>Total Guest</td>
-                                        <td> {{ $test }} </td>
-                                    </tr>
+
 
                                 </tbody>
                             </table>
