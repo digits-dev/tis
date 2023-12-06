@@ -11,6 +11,6 @@ class PrivilegeStoreAccess extends Model
     protected $table = 'privilege_store_accesses';
 
     public function scopeGetStore($query, $privilege){
-        return $query->where('cms_privileges_id', $privilege);
+        return $query->where('cms_privileges_id', $privilege)->where('status','ACTIVE');
     }
 }

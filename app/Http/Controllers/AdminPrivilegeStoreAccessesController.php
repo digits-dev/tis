@@ -33,8 +33,10 @@
 			$this->col[] = ["label"=>"Privilege Name","name"=>"cms_privileges_id","join"=>"cms_privileges,name"];
 			$this->col[] = ["label"=>"Company Store Access","name"=>"company_store_access","join"=>"company_stores,store_name"];
 			$this->col[] = ["label"=>"Status","name"=>"status"];
-			$this->col[] = ["label"=>"Created By","name"=>"created_by"];
-			$this->col[] = ["label"=>"Updated By","name"=>"updated_by"];
+			$this->col[] = ["label"=>"Created By","name"=>"created_by","join"=>"cms_users,name"];
+            $this->col[] = ["label"=>"Created Date","name"=>"created_at"];
+			$this->col[] = ["label"=>"Updated By","name"=>"updated_by","join"=>"cms_users,name"];
+            $this->col[] = ["label"=>"Updated Date","name"=>"updated_at"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
@@ -252,8 +254,8 @@
 	    */
 	    public function hook_before_add(&$postdata) {
 	        //Your code here
-
-	    }
+            $postdata['created_by'] = CRUDBooster::myId();
+ 	    }
 
 	    /*
 	    | ----------------------------------------------------------------------
@@ -277,7 +279,7 @@
 	    */
 	    public function hook_before_edit(&$postdata,$id) {
 	        //Your code here
-
+            $postdata['updated_by'] = CRUDBooster::myId();
 	    }
 
 	    /*
