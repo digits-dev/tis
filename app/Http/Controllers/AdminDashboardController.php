@@ -35,10 +35,19 @@ class AdminDashboardController extends Controller
                 $data['dine'][$key] = SalesReport::getModeofOrder($store_name->company_id,$store_name->branch_id,self::DINE)
                     ->first();
 
+                $data['dine_qty'][$key] = SalesReport::getModeofOrderQty($store_name->company_id,$store_name->branch_id,self::DINE)
+                    ->first();
+
                 $data['takeout'][$key] = SalesReport::getModeofOrder($store_name->company_id,$store_name->branch_id,self::TAKEOUT)
                     ->first();
 
+                $data['takeout_qty'][$key] = SalesReport::getModeofOrderQty($store_name->company_id,$store_name->branch_id,self::TAKEOUT)
+                    ->first();
+
                 $data['delivery'][$key] = SalesReport::getModeofOrder($store_name->company_id,$store_name->branch_id,self::DELIVERY)
+                    ->first();
+
+                $data['delivery_qty'][$key] = SalesReport::getModeofOrderQty($store_name->company_id,$store_name->branch_id,self::DELIVERY)
                     ->first();
 
                 $data['total_trx'][$key] = SalesReport::getTotalTrx($store_name->company_id,$store_name->branch_id)
@@ -47,13 +56,15 @@ class AdminDashboardController extends Controller
                 $data['gross_sale'][$key] = SalesReport::getGrossSale($store_name->company_id,$store_name->branch_id)
                     ->first();
 
-                $startDate = Carbon::parse($data['gross_sale'][$key]->date)->startOfMonth()->format('Y-m-d');
+                $grossStartDate = Carbon::parse($data['gross_sale'][$key]->date)->startOfMonth()->format('Y-m-d');
 
-                $gross = SalesReport::getGrossSale($store_name->company_id,$store_name->branch_id)->whereBetween('sales_trx_date',[$startDate,$data['gross_sale'][$key]->date])->get();
+                $gross = SalesReport::getGrossSale($store_name->company_id,$store_name->branch_id)->whereBetween('sales_trx_date',[$grossStartDate,$data['gross_sale'][$key]->date])->get();
+                $dineQty = SalesReport::getModeofOrderQty($store_name->company_id,$store_name->branch_id,self::DINE)->first();
 
-                $sum = array_sum(array_column($gross->toArray(),'amount'));
+                $sumGross = array_sum(array_column($gross->toArray(),'amount'));
 
-                $data['adds'][$key] = $sum/$gross->count();
+                $data['adds'][$key] = $sumGross/$gross->count();
+                $data['dine_ave'][$key] = $data['dine'][$key]->amount/$dineQty->count;
 
                 $data['gross_sale_mtd'][$key] = DB::connection('tms')->table('sales_report_mtd')
                 ->select(DB::raw("SUM(mtd) as amount, date_format(sales_trx_date,'%Y-%m-%d') as date"))

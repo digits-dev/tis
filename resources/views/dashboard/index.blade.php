@@ -50,19 +50,19 @@
                                 <tbody>
                                     <tr>
                                         <td>Dine in</td>
-                                        <td> {{ number_format($dine[$key]->amount,2) }} </td>
+                                        <td> {{ number_format($dine[$key]->amount,2) }} / {{ $dine_qty[$key]->count }} </td>
                                     </tr>
                                     <tr>
                                         <td>Take out</td>
-                                        <td> {{ number_format($takeout[$key]->amount,2) }} </td>
+                                        <td> {{ number_format($takeout[$key]->amount,2) }} / {{ (empty($takeout_qty[$key]->count)) ? 0 :  $takeout_qty[$key]->count }}</td>
                                     </tr>
                                     <tr>
                                         <td>Delivery</td>
-                                        <td> {{ number_format($delivery[$key]->amount,2) }} </td>
+                                        <td> {{ number_format($delivery[$key]->amount,2) }} / {{ (empty($delivery_qty[$key]->count)) ? 0 : $delivery_qty[$key]->count }} </td>
                                     </tr>
                                     <tr>
                                         <td>Dine-In Ave. Check</td>
-                                        <td> {{ $test }} </td>
+                                        <td> {{ number_format($dine_ave[$key],2) }} </td>
                                     </tr>
                                     <tr>
                                         <td>Total Transaction</td>
