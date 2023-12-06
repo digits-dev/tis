@@ -13,8 +13,8 @@ use App\Http\Controllers\AdminDashboardController;
 |
 */
 
-Route::get('/sa', function () {
-    return view('sales');
+Route::get('/', function () {
+    return redirect('admin/login');
 });
 
 Route::group(['middleware' => ['web']], function() {
