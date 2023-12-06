@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminSalesController;
+use App\Http\Controllers\AdminDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,5 +18,5 @@ Route::get('/sa', function () {
 });
 
 Route::group(['middleware' => ['web']], function() {
-    Route::get(config('crudbooster.ADMIN_PATH'),[AdminSalesController::class, 'getIndex']);
+    Route::get(config('crudbooster.ADMIN_PATH'),[AdminDashboardController::class, 'index']);
 });

@@ -14,7 +14,13 @@ class CreateCompanyStoresTable extends Migration
     public function up()
     {
         Schema::create('company_stores', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('company_id')->nullable();
+            $table->string('branch_id')->nullable();
+            $table->string('store_name')->nullable();
+            $table->string('status',10)->default('ACTIVE')->nullable();
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->integer('updated_by')->unsigned()->nullable();
             $table->timestamps();
         });
     }

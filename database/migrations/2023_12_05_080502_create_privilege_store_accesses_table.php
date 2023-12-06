@@ -14,7 +14,12 @@ class CreatePrivilegeStoreAccessesTable extends Migration
     public function up()
     {
         Schema::create('privilege_store_accesses', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->integer('cms_privileges_id')->length(10)->nullable();
+            $table->string('company_store_access')->nullable();
+            $table->string('status',10)->default('ACTIVE')->nullable();
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->integer('updated_by')->unsigned()->nullable();
             $table->timestamps();
         });
     }
